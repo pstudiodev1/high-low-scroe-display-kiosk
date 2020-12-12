@@ -33,7 +33,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <div className={classes.root}>
-      <div className="App">
+      <div className="App" style={{overflow: 'hidden'}}>
         <Board />  
       </div>
     </div>

@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import DiceStatsBoard from './diceStatsBoard';
+
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 class Board extends Component {
     //
     constructor(props) {
         super(props);
+        //
+        this.list = [];
+        this.newDice = [];
         // State.
         this.state = {
-            list: []
+            list: [],
+            newDice: [],
+            isOpen: false,
         };
         // Ref.
         this.refDiceBoard = React.createRef();
@@ -18,53 +28,221 @@ class Board extends Component {
 
     //
     componentDidMount() {
-        //
-        let list = [
-            {
-                score1: 1,
-                score2: 2,
-                score3: 3,
-                scoreAll: 6,
-                status: 'low',
-                color: 'green',
-            },
-            {
-                score1: 4,
-                score2: 5,
-                score3: 3,
-                scoreAll: 6,
-                status: 'high',
-                color: 'yello',
-            },
-            {
-                score1: 4,
-                score2: 5,
-                score3: 3,
-                scoreAll: 6,
-                status: 'high',
-                color: 'yello',
-            },
-            {},{},{},{},{},{},{},{},{},{},{},{},
-        ];
+        
+        // this.list.push({
+        //     score1: 1,
+        //     score2: 2,
+        //     score3: 3,
+        //     scoreAll: 6,
+        //     status: 'low',
+        //     color: '#ba181b',
+        // });
+
+        // this.list.push({
+        //     score1: 4,
+        //     score2: 5,
+        //     score3: 3,
+        //     scoreAll: 6,
+        //     status: 'high',
+        //     color: '#fca311',
+        // });
+
+        // this.list.push({
+        //     score1: 4,
+        //     score2: 4,
+        //     score3: 3,
+        //     scoreAll: 6,
+        //     status: 'middle',
+        //     color: '#0ea201',
+        // });
+
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+        this.list.push({});
+
+        // Update event handler.
+        document.addEventListener("keydown", this.keyPress, false);
 
         // Update to boards.
-        this.refDiceBoard.current.refresh(list);
+        this.refDiceBoard.current.refresh(this.list);
+    }
+
+    //
+    keyPress = (event) => {
+        if(event.keyCode === 27 || event.keyCode === 67) {
+            // ESC
+            this.handleCloseDialog();
+            return;
+        }
+        if(this.state.isOpen === true) {
+            if(event.keyCode >= 97 && event.keyCode <= 102) {
+                this.newDice.push(event.keyCode - 96);
+            }
+            //
+            if(this.newDice.length > 3) {
+                this.newDice.shift();
+            }
+            // Set state.
+            this.setState({ newDice: this.newDice });
+            // console.log(this.newDice);
+        } else {
+            if(event.keyCode === 107) {
+                // +
+                this.newDice = [];
+                this.setState({ newDice: this.newDice });
+                this.handleOpenDialog();
+            } else if(event.keyCode === 109) {
+                // -
+                this.list[14] = {};
+                // Update to boards.
+                this.refDiceBoard.current.refresh(this.list);
+            }    
+        }
+    }
+
+    //
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.keyPress, false);
+    }
+
+    //
+    handleOpenDialog = () => {
+        this.setState({ isOpen: true });
+    };
+    
+    //
+    handleCloseDialog = () => {
+        this.setState({ isOpen: false });
+    };
+
+    //
+    handleNewRecord = () => {
+        // Check dice must be 3 values;
+        if(this.newDice.length < 3) {
+            return;
+        }
+
+        if(this.list[14].score1 === undefined) {
+            this.list[14] = {
+                score1: this.newDice[0],
+                score2: this.newDice[1],
+                score3: this.newDice[2],
+                scoreAll: 6,
+                status: 'low',
+                color: '#ba181b',
+            };
+        } else {
+            // New record.
+            this.list.push({
+                score1: this.newDice[0],
+                score2: this.newDice[1],
+                score3: this.newDice[2],
+                scoreAll: 6,
+                status: 'low',
+                color: '#ba181b',
+            });
+
+            // Remove old record.
+            this.list.shift();
+        }
+
+        // Update to boards.
+        this.refDiceBoard.current.refresh(this.list);
+
+        //
+        this.handleCloseDialog();
     }
 
     //
     render() {
         return (
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <DiceStatsBoard ref={this.refDiceBoard} data={this.state.list} />
+            <>
+                <Dialog
+                    open={this.state.isOpen}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        เพิ่มรายการใหม่
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            <table>
+                                <tbody>
+                                    {
+                                        (this.state.newDice.length === 0) ? 
+                                        <tr>
+                                            <td>
+                                                <img src={"./images/dice/what.png"} width="100" alt="Score" />
+                                            </td>
+                                            <td>
+                                                <img src={"./images/dice/what.png"} width="100" alt="Score" />
+                                            </td>
+                                            <td>
+                                                <img src={"./images/dice/what.png"} width="100" alt="Score" />
+                                            </td>
+                                        </tr> : 
+                                        <tr>
+                                            <td>
+                                                {
+                                                    (this.state.newDice[0] === undefined) ? 
+                                                    <img src={"./images/dice/what.png"} width="100" alt="Score" /> :
+                                                    <img src={"./images/dice/" + this.state.newDice[0] + ".png"} width="100" alt="Score" />
+                                                }
+                                            </td>
+                                            <td>
+                                                {
+                                                    (this.state.newDice[1] === undefined) ? 
+                                                    <img src={"./images/dice/what.png"} width="100" alt="Score" /> :
+                                                    <img src={"./images/dice/" + this.state.newDice[1] + ".png"} width="100" alt="Score" />
+                                                }
+                                            </td>
+                                            <td>
+                                                {
+                                                    (this.state.newDice[2] === undefined) ? 
+                                                    <img src={"./images/dice/what.png"} width="100" alt="Score" /> :
+                                                    <img src={"./images/dice/" + this.state.newDice[2] + ".png"} width="100" alt="Score" />
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="secondary" variant="contained" onClick={this.handleCloseDialog}>
+                            ยกเลิก (c)
+                        </Button>
+                        <Button color="primary" variant="contained" onClick={this.handleNewRecord} autoFocus>
+                            ตกลง (&#x23CE;)
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <DiceStatsBoard ref={this.refDiceBoard} data={this.list} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <span style={{fontSize: 30, color: '#FFFFFF', fontWeight: 'bold'}}>
+                            ปุ่ม + เพื่อเพิ่มรายการใหม่, 
+                            ปุ่ม - เพื่อลบรายการล่าสุด
+                        </span>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    
-                </Grid>
-                <Grid item xs={12}>
-
-                </Grid>
-            </Grid>
+            </>
         );
     }
 }
