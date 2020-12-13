@@ -14,6 +14,7 @@ class Board extends Component {
     constructor(props) {
         super(props);
         //
+        this.idx = 0;
         this.list = [];
         this.newDice = [];
         // State.
@@ -50,6 +51,7 @@ class Board extends Component {
         if(event.keyCode === 46) {
             // Del
             this.list = [];
+            this.idx = 0;
             for(let i=0; i<15; i++) {
                 this.list.push({});
             }
@@ -74,7 +76,12 @@ class Board extends Component {
                 this.handleOpenDialog();
             } else if(event.keyCode === 109) {
                 // -
-                this.list[14] = {};
+                if(this.idx < 15) {
+                    this.idx = this.idx - 1;
+                    this.list[this.idx] = {};
+                } else {
+                    this.list[14] = {};
+                }
                 // Update to boards.
                 this.refDiceBoard.current.refresh(this.list);
             }    
@@ -108,6 +115,8 @@ class Board extends Component {
         let colorFont = '#000000';
         let colorFontBG = '#ffffff';
         let scoreAll = this.newDice[0] + this.newDice[1] + this.newDice[2];
+
+        // Process score high, low and highlow.
         if(scoreAll === 11) {
             status = 'highlow';
             colorFont = '#ffffff';
@@ -118,6 +127,7 @@ class Board extends Component {
             status = 'high';
         }
 
+        // Process color.
         if((scoreAll % 4) === 0) {
             color = '#d11f22';  // Red
         } else if((scoreAll % 4) === 1) {
@@ -128,8 +138,9 @@ class Board extends Component {
             color = '#D8B400';  // Yellow
         }
 
-        if(this.list[14].score1 === undefined) {
-            this.list[14] = {
+        // Add new record.
+        if(this.idx < 15) {
+            this.list[this.idx] = {
                 score1: this.newDice[0],
                 score2: this.newDice[1],
                 score3: this.newDice[2],
@@ -139,21 +150,35 @@ class Board extends Component {
                 colorFont: colorFont,
                 colorFontBG: colorFontBG,
             };
+            this.idx = this.idx + 1;
         } else {
-            // New record.
-            this.list.push({
-                score1: this.newDice[0],
-                score2: this.newDice[1],
-                score3: this.newDice[2],
-                scoreAll: scoreAll,
-                status: status,
-                color: color,
-                colorFont: colorFont,
-                colorFontBG: colorFontBG,
-            });
-
-            // Remove old record.
-            this.list.shift();
+            if(this.list[14].score1 === undefined) {
+                this.list[14] = {
+                    score1: this.newDice[0],
+                    score2: this.newDice[1],
+                    score3: this.newDice[2],
+                    scoreAll: scoreAll,
+                    status: status,
+                    color: color,
+                    colorFont: colorFont,
+                    colorFontBG: colorFontBG,
+                };
+            } else {
+                // New record.
+                this.list.push({
+                    score1: this.newDice[0],
+                    score2: this.newDice[1],
+                    score3: this.newDice[2],
+                    scoreAll: scoreAll,
+                    status: status,
+                    color: color,
+                    colorFont: colorFont,
+                    colorFontBG: colorFontBG,
+                });
+    
+                // Remove old record.
+                this.list.shift();
+            }
         }
 
         // Update to boards.
