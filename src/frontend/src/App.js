@@ -23,7 +23,7 @@ function App() {
     () =>
       createMuiTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: prefersDarkMode ? 'dark' : 'dark',
         },
       }),
     [prefersDarkMode],

@@ -118,8 +118,14 @@ class Board extends Component {
             status = 'high';
         }
 
-        if((scoreAll % 2) === 1) {
-            color = '#0ea201';
+        if((scoreAll % 4) === 0) {
+            color = '#d11f22';  // Red
+        } else if((scoreAll % 4) === 1) {
+            color = '#ffffff';  // White
+        } else if((scoreAll % 4) === 2) {
+            color = '#0ea201';  // Green
+        } else if((scoreAll % 4) === 3) {
+            color = '#D8B400';  // Yellow
         }
 
         if(this.list[14].score1 === undefined) {
@@ -225,13 +231,18 @@ class Board extends Component {
                 </Dialog>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
+                        <span style={{fontSize: 30, color: '#FFFFFF', fontWeight: 'bold'}}>
+                            Score Board
+                        </span>
+                    </Grid>
+                    <Grid item xs={12}>
                         <DiceStatsBoard ref={this.refDiceBoard} data={this.list} />
                     </Grid>
                     <Grid item xs={12}>
                         <span style={{fontSize: 30, color: '#FFFFFF', fontWeight: 'bold'}}>
                             ปุ่ม + เพื่อเพิ่มรายการใหม่, 
                             ปุ่ม - เพื่อลบรายการล่าสุด, 
-                            ปุ่ม Delete เพื่อลบรายการทั้งหมด, 
+                            ปุ่ม Delete เพื่อลบรายการทั้งหมด
                         </span>
                     </Grid>
                 </Grid>
