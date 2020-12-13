@@ -28,49 +28,10 @@ class Board extends Component {
 
     //
     componentDidMount() {
-        
-        // this.list.push({
-        //     score1: 1,
-        //     score2: 2,
-        //     score3: 3,
-        //     scoreAll: 6,
-        //     status: 'low',
-        //     color: '#ba181b',
-        // });
-
-        // this.list.push({
-        //     score1: 4,
-        //     score2: 5,
-        //     score3: 3,
-        //     scoreAll: 6,
-        //     status: 'high',
-        //     color: '#fca311',
-        // });
-
-        // this.list.push({
-        //     score1: 4,
-        //     score2: 4,
-        //     score3: 3,
-        //     scoreAll: 6,
-        //     status: 'middle',
-        //     color: '#0ea201',
-        // });
-
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
-        this.list.push({});
+        // Init.
+        for(let i=0; i<15; i++) {
+            this.list.push({});
+        }
 
         // Update event handler.
         document.addEventListener("keydown", this.keyPress, false);
@@ -85,6 +46,14 @@ class Board extends Component {
             // ESC
             this.handleCloseDialog();
             return;
+        }
+        if(event.keyCode === 46) {
+            // Del
+            this.list = [];
+            for(let i=0; i<15; i++) {
+                this.list.push({});
+            }
+            this.refDiceBoard.current.refresh(this.list);
         }
         if(this.state.isOpen === true) {
             if(event.keyCode >= 97 && event.keyCode <= 102) {
@@ -134,14 +103,35 @@ class Board extends Component {
             return;
         }
 
+        let status = '';
+        let color = '#fca311';
+        let colorFont = '#000000';
+        let colorFontBG = '#ffffff';
+        let scoreAll = this.newDice[0] + this.newDice[1] + this.newDice[2];
+        if(scoreAll === 11) {
+            status = 'highlow';
+            colorFont = '#ffffff';
+            colorFontBG = '#0ea201';
+        } else if(scoreAll < 11) {
+            status = 'low';
+        } else if(scoreAll > 11) {
+            status = 'high';
+        }
+
+        if((scoreAll % 2) === 1) {
+            color = '#0ea201';
+        }
+
         if(this.list[14].score1 === undefined) {
             this.list[14] = {
                 score1: this.newDice[0],
                 score2: this.newDice[1],
                 score3: this.newDice[2],
-                scoreAll: 6,
-                status: 'low',
-                color: '#ba181b',
+                scoreAll: scoreAll,
+                status: status,
+                color: color,
+                colorFont: colorFont,
+                colorFontBG: colorFontBG,
             };
         } else {
             // New record.
@@ -149,9 +139,11 @@ class Board extends Component {
                 score1: this.newDice[0],
                 score2: this.newDice[1],
                 score3: this.newDice[2],
-                scoreAll: 6,
-                status: 'low',
-                color: '#ba181b',
+                scoreAll: scoreAll,
+                status: status,
+                color: color,
+                colorFont: colorFont,
+                colorFontBG: colorFontBG,
             });
 
             // Remove old record.
@@ -238,7 +230,8 @@ class Board extends Component {
                     <Grid item xs={12}>
                         <span style={{fontSize: 30, color: '#FFFFFF', fontWeight: 'bold'}}>
                             ปุ่ม + เพื่อเพิ่มรายการใหม่, 
-                            ปุ่ม - เพื่อลบรายการล่าสุด
+                            ปุ่ม - เพื่อลบรายการล่าสุด, 
+                            ปุ่ม Delete เพื่อลบรายการทั้งหมด, 
                         </span>
                     </Grid>
                 </Grid>

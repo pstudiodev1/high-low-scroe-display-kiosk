@@ -75,11 +75,13 @@ class DiceStatsBoard extends Component {
                                                     </div>
                                                     <div style={{
                                                         width: '104px', height: '100px', 
-                                                        backgroundColor: '#6c757d', 
+                                                        backgroundColor: item.colorFontBG, 
                                                         marginBottom: '10px',
                                                         paddingTop: '15px'
                                                         }}>
-                                                        <span style={{fontSize: 50, fontWeight: 'bold'}}>{item.score1 + item.score2 + item.score3}</span>
+                                                        <span style={{fontSize: 50, fontWeight: 'bold', color: item.colorFont}}>
+                                                            {item.scoreAll}
+                                                        </span>
                                                     </div>
                                                     <div style={{
                                                         width: '104px', height: '200px', 
