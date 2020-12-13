@@ -65,32 +65,105 @@ class DiceStatsBoard extends Component {
                                                 return <td key={index} style={{width: "6.67%"}}></td>
                                             }
                                             else {
-                                                return <td key={index} align="center" style={{width: "6.67%"}}>
-                                                    <div style={{
-                                                        width: '104px', height: '104px', 
-                                                        backgroundColor: '#dee2e6', 
-                                                        marginBottom: '10px',
-                                                        }}>
-                                                        <img src={"./images/dice/" + item.status + ".png"} width="100%" alt="Score" />
-                                                    </div>
-                                                    <div style={{
-                                                        width: '104px', height: '100px', 
-                                                        backgroundColor: item.colorFontBG, 
-                                                        marginBottom: '10px',
-                                                        paddingTop: '15px'
-                                                        }}>
-                                                        <span style={{fontSize: 50, fontWeight: 'bold', color: item.colorFont}}>
-                                                            {item.scoreAll}
-                                                        </span>
-                                                    </div>
-                                                    <div style={{
-                                                        width: '104px', height: '200px', 
-                                                        backgroundColor: item.color, 
-                                                        // marginLeft: '10px', marginRight: '10px', marginBottom: '10px',
-                                                        paddingTop: '15px'
-                                                        }}>
-                                                    </div>
-                                                </td>;
+                                                if(item.status === 'high') {
+                                                    return <td key={index} align="center" style={{width: "6.67%"}}>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                            <img src={"./images/dice/" + item.status + ".png"} width="100%" alt="Score" />
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '100px', 
+                                                            backgroundColor: item.colorFontBG, 
+                                                            marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                            <span style={{fontSize: 50, fontWeight: 'bold', color: item.colorFont}}>
+                                                                {item.scoreAll}
+                                                            </span>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '150px', 
+                                                            backgroundColor: item.color, 
+                                                            // marginLeft: '10px', marginRight: '10px', marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                        </div>
+                                                    </td>;
+                                                } else if(item.status === 'low') {
+                                                    return <td key={index} align="center" style={{width: "6.67%"}}>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                            <img src={"./images/dice/" + item.status + ".png"} width="100%" alt="Score" />
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '100px', 
+                                                            backgroundColor: item.colorFontBG, 
+                                                            marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                            <span style={{fontSize: 50, fontWeight: 'bold', color: item.colorFont}}>
+                                                                {item.scoreAll}
+                                                            </span>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '150px', 
+                                                            backgroundColor: item.color, 
+                                                            // marginLeft: '10px', marginRight: '10px', marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                        </div>
+                                                    </td>;
+                                                } else {
+                                                    return <td key={index} align="center" style={{width: "6.67%"}}>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '104px', 
+                                                            backgroundColor: '#dee2e6', 
+                                                            marginBottom: '10px',
+                                                            }}>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '100px', 
+                                                            backgroundColor: item.colorFontBG, 
+                                                            marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                            <span style={{fontSize: 50, fontWeight: 'bold', color: item.colorFont}}>
+                                                                {item.scoreAll}
+                                                            </span>
+                                                        </div>
+                                                        <div style={{
+                                                            width: '104px', height: '150px', 
+                                                            backgroundColor: item.color, 
+                                                            // marginLeft: '10px', marginRight: '10px', marginBottom: '10px',
+                                                            paddingTop: '15px'
+                                                            }}>
+                                                        </div>
+                                                    </td>;
+                                                }
                                             }
                                         })
                                     }

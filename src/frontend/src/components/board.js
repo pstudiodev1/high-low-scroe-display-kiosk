@@ -230,11 +230,11 @@ class Board extends Component {
                     </DialogActions>
                 </Dialog>
                 <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <span style={{fontSize: 30, color: '#FFFFFF', fontWeight: 'bold'}}>
                             Score Board
                         </span>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <DiceStatsBoard ref={this.refDiceBoard} data={this.list} />
                     </Grid>
